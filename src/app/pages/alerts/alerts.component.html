@@ -1,0 +1,318 @@
+<div class="alerts-page"> <!-- Header --> <div class="page-header"> <div class="header-content"> <div class="title-section"> <div class="title-icon"> <span>⚠</span> </div>
+    <div>
+      <h1>Alerts</h1>
+      <p>Monitor and review transaction risk alerts</p>
+    </div>
+  </div>
+
+  <button
+    class="refresh-btn"
+    type="button"
+    (click)="loadAlerts()"
+    [disabled]="loading">
+
+    <span class="refresh-icon" [class.spinning]="loading">↻</span>
+
+    {{ loading ? 'Refreshing...' : 'Refresh' }}
+  </button>
+</div>
+
+</div> <!-- Statistics --> <div class="stats-grid">
+<div class="stat-card">
+  <div class="stat-icon blue">
+    <span>▣</span>
+  </div>
+
+  <div class="stat-content">
+    <span class="stat-label">Total Alerts</span>
+    <strong>{{ alerts.length }}</strong>
+  </div>
+</div>
+
+<div class="stat-card">
+  <div class="stat-icon red">
+    <span>!</span>
+  </div>
+
+  <div class="stat-content">
+    <span class="stat-label">Open Alerts</span>
+    <strong>{{ openAlertsCount }}</strong>
+  </div>
+</div>
+
+<div class="stat-card">
+  <div class="stat-icon orange">
+    <span>⚡</span>
+  </div>
+
+  <div class="stat-content">
+    <span class="stat-label">High Risk</span>
+    <strong>{{ highRiskCount }}</strong>
+  </div>
+</div>
+
+<div class="stat-card">
+  <div class="stat-icon green">
+    <span>✓</span>
+  </div>
+
+  <div class="stat-content">
+    <span class="stat-label">Closed</span>
+    <strong>{{ closedAlertsCount }}</strong>
+  </div>
+</div>
+
+</div> <!-- Filters --> <div class="filters-card">
+<div class="search-box">
+  <span class="search-icon">⌕</span>
+
+  <input
+    type="text"
+    placeholder="Search alerts..."
+    [(ngModel)]="searchText"
+    (input)="applyFilters()">
+</div>
+
+<select
+  class="filter-select"
+  [(ngModel)]="statusFilter"
+  (change)="applyFilters()">
+
+  <option value="ALL">All Statuses</option>
+  <option value="OPEN">Open</option>
+  <option value="REVIEW">Review</option>
+  <option value="CLOSED">Closed</option>
+
+</select>
+
+<select
+  class="filter-select"
+  [(ngModel)]="riskFilter"
+  (change)="applyFilters()">
+
+  <option value="ALL">All Risk Levels</option>
+  <option value="HIGH">High Risk</option>
+  <option value="MEDIUM">Medium Risk</option>
+  <option value="LOW">Low Risk</option>
+
+</select>
+
+<button
+  type="button"
+  class="clear-btn"
+  (click)="clearFilters()">
+
+  Clear Filters
+
+</button>
+
+</div> <!-- Error --> <div class="error-message" *ngIf="error">
+<span class="error-icon">!</span>
+
+<div>
+  <strong>Unable to load alerts</strong>
+  <p>{{ error }}</p>
+</div>
+
+<button type="button" (click)="loadAlerts()">
+  Retry
+</button>
+
+</div> <!-- Loading --> <div class="loading-container" *ngIf="loading">
+<div class="loader"></div>
+
+<p>Loading alerts...</p>
+
+</div> <!-- Alerts Table --> <div class="table-card" *ngIf="!loading">
+<div class="table-header">
+
+  <div>
+    <h2>Alert Records</h2>
+
+    <p>
+      Showing
+      <strong>{{ filteredAlerts.length }}</strong>
+      of
+      <strong>{{ alerts.length }}</strong>
+      alerts
+    </p>
+  </div>
+
+</div>
+
+<div class="table-wrapper">
+
+  <table>
+
+    <thead>
+      <tr>
+        <th>Alert ID</th>
+        <th>Customer ID</th>
+        <th>Account ID</th>
+        <th>Transaction ID</th>
+        <th>Rule Code</th>
+        <th>Rule Name</th>
+        <th>Risk Score</th>
+        <th>Status</th>
+        <th>Alert Reason</th>
+        <th>Triggered At</th>
+        <th>Created By</th>
+      </tr>
+    </thead>
+
+    <tbody>
+
+      <tr *ngFor="let alert of filteredAlerts">
+
+        <!-- Alert ID -->
+        <td>
+          <span class="id-value">
+            #{{ alert.alertId }}
+          </span>
+        </td>
+
+        <!-- Customer ID -->
+        <td>
+          <span class="id-badge">
+            {{ alert.customerId ?? '-' }}
+          </span>
+        </td>
+
+        <!-- Account ID -->
+        <td>
+          <span class="id-badge">
+            {{ alert.accountId ?? '-' }}
+          </span>
+        </td>
+
+        <!-- Transaction ID -->
+        <td>
+          <span class="id-badge">
+            {{ alert.transactionId ?? '-' }}
+          </span>
+        </td>
+
+        <!-- Rule Code -->
+        <td>
+          <span class="rule-code">
+            {{ alert.ruleCode ?? '-' }}
+          </span>
+        </td>
+
+        <!-- Rule Name -->
+        <td>
+          <div class="rule-name">
+            {{ alert.ruleName ?? '-' }}
+          </div>
+        </td>
+
+        <!-- Risk Score -->
+        <td>
+          <div
+            class="risk-score"
+            [ngClass]="getRiskClass(alert.riskScore)">
+
+            <span class="risk-dot"></span>
+
+            <strong>
+              {{ alert.riskScore ?? '-' }}
+            </strong>
+
+          </div>
+        </td>
+
+        <!-- Status -->
+        <td>
+          <span
+            class="status-badge"
+            [ngClass]="getStatusClass(alert.alertStatus)">
+
+            <span class="status-dot"></span>
+
+            {{ alert.alertStatus ?? '-' }}
+
+          </span>
+        </td>
+
+        <!-- Reason -->
+        <td>
+          <div
+            class="alert-reason"
+            [title]="alert.alertReason || ''">
+
+            {{ alert.alertReason ?? '-' }}
+
+          </div>
+        </td>
+
+        <!-- Triggered At -->
+        <td>
+          <div class="date-value">
+
+            <span class="date">
+              {{ formatDate(alert.triggeredAt) }}
+            </span>
+
+            <span class="time">
+              {{ formatTime(alert.triggeredAt) }}
+            </span>
+
+          </div>
+        </td>
+
+        <!-- Created By -->
+        <td>
+          <div class="created-by">
+
+            <div class="user-avatar">
+              {{ getInitials(alert.createdBy) }}
+            </div>
+
+            <span>
+              {{ alert.createdBy ?? '-' }}
+            </span>
+
+          </div>
+        </td>
+
+      </tr>
+
+      <!-- Empty -->
+      <tr *ngIf="filteredAlerts.length === 0">
+
+        <td colspan="11">
+
+          <div class="empty-state">
+
+            <div class="empty-icon">
+              🔍
+            </div>
+
+            <h3>No alerts found</h3>
+
+            <p>
+              No alerts match your current search or filters.
+            </p>
+
+            <button
+              type="button"
+              class="empty-clear-btn"
+              (click)="clearFilters()">
+
+              Clear Filters
+
+            </button>
+
+          </div>
+
+        </td>
+
+      </tr>
+
+    </tbody>
+
+  </table>
+
+</div>
+
+</div> </div>

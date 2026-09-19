@@ -1,0 +1,402 @@
+
+<div class="transaction-page">
+
+  <div class="page-header">
+    <h1>Process Transaction</h1>
+    <p>Submit a transaction for real-time AML screening</p>
+  </div>
+
+  <div class="transaction-card">
+
+    <form
+      #transactionForm="ngForm"
+      (ngSubmit)="transactionForm.valid && processTransaction()"
+      novalidate>
+
+      <!-- Account -->
+      <div class="form-group">
+
+        <label>Account *</label>
+
+        <select
+          [(ngModel)]="transaction.accountId"
+          name="accountId"
+          #accountId="ngModel"
+          required>
+
+          <option [ngValue]="0" disabled>
+            Select Account
+          </option>
+
+          <option
+            *ngFor="let account of accounts"
+            [ngValue]="account.accountId">
+
+            {{ account.accountNumber }}
+            - {{ account.accountType }}
+            - {{ account.currency }}
+
+          </option>
+
+        </select>
+
+        <small
+          class="error"
+          *ngIf="accountId.invalid && (accountId.touched || transactionForm.submitted)">
+          Please select an account.
+        </small>
+
+      </div>
+
+
+      <!-- Counterparty Account -->
+      <div class="form-group">
+
+        <label>Counterparty Account *</label>
+
+        <input
+          type="text"
+          [(ngModel)]="transaction.counterpartyAccount"
+          name="counterpartyAccount"
+          #counterpartyAccount="ngModel"
+          placeholder="ACC_000301"
+          required
+          minlength="3"
+          maxlength="50">
+
+        <small
+          class="error"
+          *ngIf="counterpartyAccount.invalid &&
+                 (counterpartyAccount.touched || transactionForm.submitted)">
+
+          Counterparty account is required.
+
+        </small>
+
+      </div>
+
+
+      <!-- Counterparty Name -->
+      <div class="form-group">
+
+        <label>Counterparty Name *</label>
+
+        <input
+          type="text"
+          [(ngModel)]="transaction.counterpartyName"
+          name="counterpartyName"
+          #counterpartyName="ngModel"
+          placeholder="John / ABC Company"
+          required
+          minlength="2"
+          maxlength="150">
+
+        <small
+          class="error"
+          *ngIf="counterpartyName.invalid &&
+                 (counterpartyName.touched || transactionForm.submitted)">
+
+          Counterparty name is required.
+
+        </small>
+
+      </div>
+
+
+      <!-- Transaction Type -->
+      <div class="form-group">
+
+        <label>Transaction Type *</label>
+
+        <select
+          [(ngModel)]="transaction.transactionType"
+          name="transactionType"
+          #transactionType="ngModel"
+          required>
+
+          <option value="" disabled>
+            Select Type
+          </option>
+
+          <option value="CREDIT">CREDIT</option>
+          <option value="DEBIT">DEBIT</option>
+
+        </select>
+
+        <small
+          class="error"
+          *ngIf="transactionType.invalid &&
+                 (transactionType.touched || transactionForm.submitted)">
+
+          Please select transaction type.
+
+        </small>
+
+      </div>
+
+
+      <!-- Amount -->
+      <div class="form-group">
+
+        <label>Amount *</label>
+
+        <input
+          type="number"
+          [(ngModel)]="transaction.amount"
+          name="amount"
+          #amount="ngModel"
+          placeholder="Enter amount"
+          min="1"
+          step="0.01"
+          required>
+
+        <small
+          class="error"
+          *ngIf="amount.invalid &&
+                 (amount.touched || transactionForm.submitted)">
+
+          <span *ngIf="amount.errors?.['required']">
+            Amount is required.
+          </span>
+
+          <span *ngIf="amount.errors?.['min']">
+            Amount must be greater than 0.
+          </span>
+
+        </small>
+
+      </div>
+
+
+      <!-- Currency -->
+      <div class="form-group">
+
+        <label>Currency *</label>
+
+        <select
+          [(ngModel)]="transaction.currency"
+          name="currency"
+          #currency="ngModel"
+          required>
+
+          <option value="INR">INR</option>
+          <option value="USD">USD</option>
+          <option value="EUR">EUR</option>
+          <option value="GBP">GBP</option>
+
+        </select>
+
+        <small
+          class="error"
+          *ngIf="currency.invalid &&
+                 (currency.touched || transactionForm.submitted)">
+
+          Please select currency.
+
+        </small>
+
+      </div>
+
+
+      <!-- Transaction Date -->
+      <div class="form-group">
+
+        <label>Transaction Date & Time *</label>
+
+        <input
+          type="datetime-local"
+          [(ngModel)]="transaction.transactionDatetime"
+          name="transactionDatetime"
+          #transactionDatetime="ngModel"
+          required>
+
+        <small
+          class="error"
+          *ngIf="transactionDatetime.invalid &&
+                 (transactionDatetime.touched || transactionForm.submitted)">
+
+          Transaction date and time is required.
+
+        </small>
+
+      </div>
+
+
+      <!-- Country -->
+      <div class="form-group">
+
+        <label>Country Code *</label>
+
+        <input
+          type="text"
+          [(ngModel)]="transaction.countryCode"
+          name="countryCode"
+          #countryCode="ngModel"
+          placeholder="IN"
+          minlength="2"
+          maxlength="10"
+          required>
+
+        <small
+          class="error"
+          *ngIf="countryCode.invalid &&
+                 (countryCode.touched || transactionForm.submitted)">
+
+          Country code is required.
+
+        </small>
+
+      </div>
+
+
+      <!-- Channel -->
+      <div class="form-group">
+
+        <label>Channel *</label>
+
+        <select
+          [(ngModel)]="transaction.channel"
+          name="channel"
+          #channel="ngModel"
+          required>
+
+          <option value="ONLINE">ONLINE</option>
+          <option value="MOBILE">MOBILE</option>
+          <option value="ATM">ATM</option>
+          <option value="BRANCH">BRANCH</option>
+          <option value="CARD">CARD</option>
+
+        </select>
+
+        <small
+          class="error"
+          *ngIf="channel.invalid &&
+                 (channel.touched || transactionForm.submitted)">
+
+          Please select channel.
+
+        </small>
+
+      </div>
+
+
+      <!-- Merchant Category -->
+      <div class="form-group">
+
+        <label>Merchant Category *</label>
+
+        <input
+          type="text"
+          [(ngModel)]="transaction.merchantCategory"
+          name="merchantCategory"
+          #merchantCategory="ngModel"
+          placeholder="TRANSFER"
+          required
+          maxlength="100">
+
+        <small
+          class="error"
+          *ngIf="merchantCategory.invalid &&
+                 (merchantCategory.touched || transactionForm.submitted)">
+
+          Merchant category is required.
+
+        </small>
+
+      </div>
+
+
+      <!-- Narration -->
+      <div class="form-group full-width">
+
+        <label>Narration *</label>
+
+        <textarea
+          [(ngModel)]="transaction.narration"
+          name="narration"
+          #narration="ngModel"
+          placeholder="Enter transaction narration"
+          required
+          minlength="3"
+          maxlength="500">
+        </textarea>
+
+        <small
+          class="error"
+          *ngIf="narration.invalid &&
+                 (narration.touched || transactionForm.submitted)">
+
+          Narration is required.
+
+        </small>
+
+      </div>
+
+
+      <!-- Submit -->
+      <div class="form-actions">
+
+        <button
+          type="submit"
+          [disabled]="loading || transactionForm.invalid">
+
+          {{ loading ? 'Processing...' : 'Process Transaction' }}
+
+        </button>
+
+      </div>
+
+    </form>
+
+  </div>
+
+
+  <!-- Result -->
+  <div
+    class="result-card"
+    *ngIf="response">
+
+    <h2>Transaction Result</h2>
+
+    <div class="result-row">
+      <span>Transaction ID</span>
+      <strong>{{ response.transactionId }}</strong>
+    </div>
+
+    <div class="result-row">
+      <span>Amount</span>
+      <strong>
+        {{ response.amount }} {{ response.currency }}
+      </strong>
+    </div>
+
+    <div class="result-row">
+      <span>Amount INR</span>
+      <strong>{{ response.amountInr }}</strong>
+    </div>
+
+    <div class="result-row">
+      <span>Status</span>
+
+      <strong
+        [class.suspicious]="response.status === 'SUSPICIOUS'"
+        [class.hold]="response.status === 'HOLD'"
+        [class.completed]="response.status === 'COMPLETED'">
+
+        {{ response.status }}
+
+      </strong>
+    </div>
+
+    <div class="result-row">
+      <span>High Risk</span>
+
+      <strong>
+        {{ response.isHighRisk ? 'YES' : 'NO' }}
+      </strong>
+
+    </div>
+
+  </div>
+
+</div>
