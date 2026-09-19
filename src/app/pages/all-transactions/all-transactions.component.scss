@@ -1,0 +1,35 @@
+/* all-transactions.component.scss */
+
+.transactions-page {
+  padding: 40px;
+  background: #f5f7fb;
+  min-height: 100vh;
+  font-family: Arial, sans-serif;
+}
+
+h1 {
+  margin-bottom: 25px;
+  color: #1f2937;
+}
+
+table {
+  width: 100%;
+  background: white;
+  border-collapse: collapse;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+}
+
+th {
+  background: #f3f4f6;
+  padding: 14px;
+  text-align: left;
+}
+
+td {
+  padding: 14px;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+tr:hover {
+  background: #f9fafb;
+}

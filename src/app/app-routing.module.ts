@@ -5,6 +5,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { DashboardComponent } from './pages/dashboard/dashboard.component';
 import { TransactionComponent } from './pages/transaction/transaction.component';
 import { AlertsComponent } from './pages/alerts/alerts.component';
+import { AllTransactionsComponent } from './pages/all-transactions/all-transactions.component';
 
 const routes: Routes = [
 
@@ -21,6 +22,10 @@ const routes: Routes = [
   {
     path: 'alerts',
     component: AlertsComponent
+  },
+  {
+    path:'all-transactions',
+    component:AllTransactionsComponent
   },
 
   // Default route

@@ -7,13 +7,14 @@
 }
 
 .dashboard-header {
-  margin-bottom: 35px;
+  margin-bottom: 40px;
 }
 
 .dashboard-header h1 {
   margin: 0;
-  font-size: 32px;
-  color: #1f2937;
+  font-size: 34px;
+  font-weight: 700;
+  color: #111827;
 }
 
 .dashboard-header p {
@@ -24,37 +25,48 @@
 
 .dashboard-menu {
   display: grid;
-  grid-template-columns: repeat(2, 1fr);
+  grid-template-columns: repeat(3, 1fr);
   gap: 25px;
-  max-width: 900px;
+  max-width: 1200px;
 }
 
 .menu-card {
   background: white;
   padding: 30px;
-  border-radius: 12px;
-  box-shadow: 0 3px 12px rgba(0, 0, 0, 0.08);
+  min-height: 210px;
+  border-radius: 14px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
   cursor: pointer;
-  transition: 0.2s;
+  transition: 0.2s ease;
+  border: 1px solid #e5e7eb;
 }
 
 .menu-card:hover {
-  transform: translateY(-3px);
+  transform: translateY(-5px);
+  box-shadow: 0 8px 22px rgba(0, 0, 0, 0.12);
+}
+
+.card-icon {
+  font-size: 32px;
+  margin-bottom: 15px;
 }
 
 .menu-card h2 {
-  margin-top: 0;
+  margin: 0 0 10px;
+  font-size: 21px;
   color: #1f2937;
 }
 
 .menu-card p {
   color: #6b7280;
+  line-height: 1.5;
+  min-height: 48px;
   margin-bottom: 20px;
 }
 
 .menu-card button {
   border: none;
-  padding: 11px 20px;
+  padding: 10px 18px;
   border-radius: 6px;
   background: #2563eb;
   color: white;
@@ -66,7 +78,13 @@
   background: #1d4ed8;
 }
 
-@media (max-width: 768px) {
+@media (max-width: 900px) {
+  .dashboard-menu {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 600px) {
   .dashboard {
     padding: 20px;
   }

@@ -1,0 +1,63 @@
+<!-- all-transactions.component.html -->
+
+<div class="transactions-page">
+
+  <h1>All Transactions</h1>
+
+  <table>
+
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>Account</th>
+        <th>Type</th>
+        <th>Amount</th>
+        <th>INR Amount</th>
+        <th>Date & Time</th>
+        <th>Country</th>
+        <th>Channel</th>
+        <th>Status</th>
+        <th>Risk</th>
+      </tr>
+    </thead>
+
+    <tbody>
+
+      <tr *ngFor="let transaction of transactions">
+
+        <td>{{ transaction.transactionId }}</td>
+
+        <td>{{ transaction.accountId }}</td>
+
+        <td>{{ transaction.transactionType }}</td>
+
+        <td>
+          {{ transaction.amount }}
+          {{ transaction.currency }}
+        </td>
+
+        <td>
+          ₹{{ transaction.amountInr }}
+        </td>
+
+        <td>
+          {{ transaction.transactionDatetime | date:'dd-MM-yyyy HH:mm' }}
+        </td>
+
+        <td>{{ transaction.countryCode }}</td>
+
+        <td>{{ transaction.channel }}</td>
+
+        <td>{{ transaction.status }}</td>
+
+        <td>
+          {{ transaction.isHighRisk ? 'HIGH' : 'NORMAL' }}
+        </td>
+
+      </tr>
+
+    </tbody>
+
+  </table>
+
+</div>

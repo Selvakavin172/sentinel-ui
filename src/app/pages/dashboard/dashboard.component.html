@@ -2,22 +2,58 @@
 <div class="dashboard">
 
   <div class="dashboard-header">
-    <h1>SentinelFlow Dashboard</h1>
-    <p>Real-Time AML Transaction Monitoring</p>
+    <h1>SentinelFlow</h1>
+    <p>Real-Time AML Transaction Monitoring Platform</p>
   </div>
 
   <div class="dashboard-menu">
 
+    <!-- Create Transaction -->
     <div class="menu-card" routerLink="/transaction">
-      <h2>Transactions</h2>
-      <p>Process and monitor financial transactions.</p>
-      <button>Open Transactions</button>
+      <div class="card-icon">💳</div>
+      <h2>Create Transaction</h2>
+      <p>Submit and process a new financial transaction.</p>
+      <button>New Transaction</button>
     </div>
 
+    <!-- All Transactions -->
+    <div class="menu-card" routerLink="/all-transactions">
+      <div class="card-icon">📊</div>
+      <h2>All Transactions</h2>
+      <p>View and monitor all processed transactions.</p>
+      <button>View Transactions</button>
+    </div>
+
+    <!-- AML Alerts -->
     <div class="menu-card" routerLink="/alerts">
+      <div class="card-icon">🚨</div>
       <h2>AML Alerts</h2>
-      <p>View and review suspicious transactions and alerts.</p>
+      <p>Review suspicious transactions and AML alerts.</p>
       <button>View Alerts</button>
+    </div>
+
+    <!-- Rule Configuration -->
+    <div class="menu-card" routerLink="/rules">
+      <div class="card-icon">⚙️</div>
+      <h2>Rule Configuration</h2>
+      <p>Configure and monitor AML detection rules.</p>
+      <button>Manage Rules</button>
+    </div>
+
+    <!-- Customers -->
+    <div class="menu-card" routerLink="/customers">
+      <div class="card-icon">👥</div>
+      <h2>Customers</h2>
+      <p>View customer profiles and risk information.</p>
+      <button>View Customers</button>
+    </div>
+
+    <!-- Accounts -->
+    <div class="menu-card" routerLink="/accounts">
+      <div class="card-icon">🏦</div>
+      <h2>Accounts</h2>
+      <p>View customer accounts and account balances.</p>
+      <button>View Accounts</button>
     </div>
 
   </div>

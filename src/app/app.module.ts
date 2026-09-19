@@ -10,13 +10,15 @@ import { AppComponent } from './app.component';
 import { DashboardComponent } from './pages/dashboard/dashboard.component';
 import { TransactionComponent } from './pages/transaction/transaction.component';
 import { AlertsComponent } from './pages/alerts/alerts.component';
+import { AllTransactionsComponent } from './pages/all-transactions/all-transactions.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     DashboardComponent,
     TransactionComponent,
-    AlertsComponent
+    AlertsComponent,
+    AllTransactionsComponent
   ],
 
   imports: [
