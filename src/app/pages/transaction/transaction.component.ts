@@ -1,6 +1,7 @@
 
 import { Component, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+import { AuthService } from 'src/app/services/auth.service';
 
 interface Account {
   accountId: number;
@@ -46,7 +47,7 @@ interface TransactionResponse {
 export class TransactionComponent implements OnInit {
 
   private accountApi =
-    'http://localhost:8082/sentinel/api/v1/accounts';
+    'http://localhost:8082/sentinel/api/v1/account';
 
   private transactionApi =
     'http://localhost:8082/sentinel/api/v1/transactions';
@@ -71,15 +72,16 @@ export class TransactionComponent implements OnInit {
     narration: ''
   };
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient,private authService:AuthService) {}
 
   ngOnInit(): void {
     this.loadAccounts();
   }
+  
 
   loadAccounts(): void {
 
-    this.http.get<Account[]>(this.accountApi)
+    this.http.get<Account[]>(this.accountApi+'/'+this.authService.getUser()?.customerId)
       .subscribe({
         next: (data) => {
           this.accounts = data;

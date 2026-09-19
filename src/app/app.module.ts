@@ -11,6 +11,7 @@ import { DashboardComponent } from './pages/dashboard/dashboard.component';
 import { TransactionComponent } from './pages/transaction/transaction.component';
 import { AlertsComponent } from './pages/alerts/alerts.component';
 import { AllTransactionsComponent } from './pages/all-transactions/all-transactions.component';
+import { LoginComponent } from './pages/login/login.component';
 
 @NgModule({
   declarations: [
@@ -18,7 +19,8 @@ import { AllTransactionsComponent } from './pages/all-transactions/all-transacti
     DashboardComponent,
     TransactionComponent,
     AlertsComponent,
-    AllTransactionsComponent
+    AllTransactionsComponent,
+    LoginComponent
   ],
 
   imports: [
@@ -27,6 +29,7 @@ import { AllTransactionsComponent } from './pages/all-transactions/all-transacti
     HttpClientModule,
     AppRoutingModule
   ],
+  exports: [],
 
   providers: [],
 
